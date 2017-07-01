@@ -57,18 +57,18 @@ void TextWindow::render()
     while (line != end)
       {
 	if (mTextOffsetX < line->length())
-	  mvwprintw(mWindow, lineNumber, 0, line->substr(mTextOffsetX, mCols).c_str());
+	  mvwprintw(mWindow, lineNumber, 0, line->substr(mTextOffsetX, mCols).data());
 
 	if (mTextOffsetX < line->length())
 	  {
-	    std::string visibleText = line->substr(mTextOffsetX, mCols);
+            std::experimental::string_view visibleText = line->substr(mTextOffsetX, mCols);
 	    for (auto const& designation : *mDesignations)
 	      {
 		auto designationPos = visibleText.find(designation);
 		if (designationPos != std::string::npos)
 		  {
 		    wattron(mWindow, COLOR_PAIR(1));
-		    mvwprintw(mWindow, lineNumber, designationPos, designation.c_str());
+		    mvwprintw(mWindow, lineNumber, designationPos, designation.data());
 		    wattroff(mWindow, COLOR_PAIR(1));
 		  }
 	      }
@@ -82,10 +82,10 @@ void TextWindow::render()
 	    int relativeSelectionBeginX = std::min(relativeSelectionEnd1X, relativeSelectionEnd2X);
 	    int relativeSelectionEndX = std::max(relativeSelectionEnd1X, relativeSelectionEnd2X);
 
-	    std::string fill = "";
+	    std::string fill;
 
 	    if (mTextOffsetX < line->length())
-	      fill = line->substr(mTextOffsetX + relativeSelectionBeginX, relativeSelectionEndX - relativeSelectionBeginX);
+              fill = line->substr(mTextOffsetX + relativeSelectionBeginX, relativeSelectionEndX - relativeSelectionBeginX).to_string();
 
 	    if (fill.length() < relativeSelectionEndX - relativeSelectionBeginX)
 	      fill += std::string(relativeSelectionEndX - relativeSelectionBeginX - fill.length(), ' ');
@@ -114,9 +114,9 @@ void TextWindow::focus()
   lazyRender();
 }
 
-std::string TextWindow::getCurrentLine()
+std::experimental::string_view TextWindow::getCurrentLine()
 {
-  std::string currentLine = "";
+  std::experimental::string_view currentLine;
 
   auto pos = mCursorY + mTextOffsetY;
   auto len = 1;
@@ -128,14 +128,14 @@ std::string TextWindow::getCurrentLine()
   return currentLine;
 }
 
-std::string TextWindow::getSelectedText()
+std::experimental::string_view TextWindow::getSelectedText()
 {
   if (mSelectionBeginX < 0 || mSelectionBeginY < 0)
     return "";
 
   int absoluteSelectionBeginX = std::min(mSelectionBeginX, mCursorX);
   int absoluteSelectionEndX = std::max(mSelectionBeginX, mCursorX);
-  std::string currentLine = getCurrentLine();
+  auto currentLine = getCurrentLine();
 
   if (absoluteSelectionBeginX >= currentLine.length())
     {
@@ -274,7 +274,7 @@ void TextWindow::lineEndHandler()
 
 void TextWindow::wordLeftHandler()
 {
-  std::string line = getCurrentLine();
+  auto line = getCurrentLine();
 
   unsigned cursorPosInString = mCursorX + mTextOffsetX;
   cursorPosInString = std::min(cursorPosInString, (unsigned)line.length());
@@ -306,7 +306,7 @@ void TextWindow::wordLeftHandler()
 
 void TextWindow::wordRightHandler()
 {
-  std::string line = getCurrentLine();
+  auto line = getCurrentLine();
 
   unsigned cursorPosInString = mCursorX + mTextOffsetX;
 

@@ -62,7 +62,7 @@ void Grep::grepWorker(std::string pattern, std::shared_ptr<TextBuffer> output)
       auto& pos = knownInputSize;
       unsigned len = newInputSize - knownInputSize;
       auto filterer = [&](TextBuffer::Iterator begin, TextBuffer::Iterator end) {
-	std::vector<std::string> linesMatching;
+       TextBuffer::Buffer linesMatching;
 	auto it = begin;
 	while (it != end)
 	  {

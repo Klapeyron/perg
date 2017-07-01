@@ -117,8 +117,8 @@ void FileController::circleGrepsRightHandler()
 
 void FileController::focusHandler()
 {
-  std::string currentLine = mTextWindows[mCurrentGrep]->getCurrentLine();
-  std::vector<std::string> lineFragments;
+  std::experimental::string_view currentLine = mTextWindows[mCurrentGrep]->getCurrentLine();
+  std::vector<std::experimental::string_view> lineFragments;
 
   // algorithm
   for (unsigned pos = 0; pos < currentLine.length(); pos += mRegion.cols)
@@ -150,7 +150,7 @@ void FileController::focusReleaseHandler()
 
 void FileController::designationHandler()
 {
-  std::string designation = mTextWindows[mCurrentGrep]->getSelectedText();
+  std::experimental::string_view designation = mTextWindows[mCurrentGrep]->getSelectedText();
   if (designation != "")
     mFile->getDesignations()->push_back(designation);
 }

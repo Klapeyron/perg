@@ -23,20 +23,21 @@ void File::readFile(std::string fileName, std::shared_ptr<TextBuffer> output)
   if (!fileStream.is_open())
     throw std::runtime_error("Cannot open file");
 
-  std::vector<std::string> lines;
+  std::vector<std::experimental::string_view> view;
   std::string line;
-  while (getline(fileStream, line))
+  while (std::getline(fileStream, line))
     {
-      lines.push_back(std::move(line));
-      if (lines.size() >= mLinesToFlush)
+      lines.push(std::move(line));
+      view.emplace_back(lines.back());
+      if (view.size() >= mLinesToFlush)
         {
-          output->appendData(std::move(lines));
-          lines.clear();
+          output->appendData(std::move(view));
+          view.clear();
         }
     }
 
-  if (lines.size() > 0)
-    output->appendData(std::move(lines));
+  if (view.size() > 0)
+    output->appendData(std::move(view));
 
   output->seal();
 }

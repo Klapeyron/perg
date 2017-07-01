@@ -1,8 +1,8 @@
 #pragma once
 
 #include <vector>
-#include <string>
+#include <experimental/string_view>
 
-using Designations = std::vector<std::string>;
+using Designations = std::vector<std::experimental::string_view>;
 
 // TODO: https://stackoverflow.com/questions/34287842/c-strongly-typed-using-and-typedef

@@ -1,14 +1,14 @@
 #pragma once
 
 #include <vector>
-#include <string>
+#include <experimental/string_view>
 #include <functional>
 
 class ITextBuffer
 {
 public:
-  using Buffer = std::vector<std::string>;
-  using Iterator = std::vector<std::string>::iterator;
+  using Buffer = std::vector<std::experimental::string_view>;
+  using Iterator = Buffer::iterator;
 
 public:
   virtual ~ITextBuffer() {};

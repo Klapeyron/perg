@@ -1,7 +1,6 @@
 #pragma once
 
 #include <vector>
-#include <string>
 #include <mutex>
 #include <condition_variable>
 
@@ -10,8 +9,8 @@
 class TextBuffer : public ITextBuffer
 {
 public:
-  using Buffer = std::vector<std::string>;
-  using Iterator = std::vector<std::string>::iterator;
+  using Buffer = ITextBuffer::Buffer;
+  using Iterator = ITextBuffer::Iterator;
 
 public:
   TextBuffer();

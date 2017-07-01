@@ -1,7 +1,7 @@
 #include "ApplicationController.hpp"
 #include "StaticTextBuffer.hpp"
 
-std::vector<std::string> welcomeWindowText = {
+std::vector<std::experimental::string_view> welcomeWindowText = {
   "Welcome to perg, multi-grep-like tool.",
   "",
   "Quit         q",

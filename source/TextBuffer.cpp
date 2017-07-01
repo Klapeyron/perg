@@ -41,9 +41,7 @@ void TextBuffer::waitForNewSize(unsigned oldSize)
 void TextBuffer::appendData(Buffer && data)
 {
   std::lock_guard<std::mutex> lock(mBufferLock);
-  mBuffer.insert(mBuffer.end(),
-                 std::make_move_iterator(data.begin()),
-                 std::make_move_iterator(data.end()));
+  std::move(data.begin(), data.end(), std::back_inserter(mBuffer));
   mNewData.notify_all();
 }
 

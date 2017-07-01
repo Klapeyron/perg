@@ -3,6 +3,7 @@
 #include <ncurses.h>
 #include <vector>
 #include <string>
+#include <experimental/string_view>
 #include <memory>
 #include <map>
 
@@ -23,8 +24,8 @@ public:
   Event proceed();
   void render();
   void focus();
-  std::string getCurrentLine();
-  std::string getSelectedText();
+  std::experimental::string_view getCurrentLine();
+  std::experimental::string_view getSelectedText();
 
 private:
   static const unsigned mWindowTimeoutMs = 100;
